@@ -8,7 +8,6 @@ public class Character : MonoBehaviour
     #region Stats
 
     public float Health;
-    public float MaxHealth;
 
     public float Speed;
     public float GetSpeed => Speed * Time.deltaTime;
@@ -20,6 +19,8 @@ public class Character : MonoBehaviour
     public GameObject playerSprite;
     public Animator anim;
     private bool facingRight = true;
+    public CircleCollider2D attackCollider;
+
     private void Awake()
     {
         Instance = this;
@@ -27,6 +28,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         GameController.Instance.CreateHearts();
+        attackCollider.enabled = false;
     }
 
     void Update()
@@ -62,9 +64,20 @@ public class Character : MonoBehaviour
         {
             anim.SetTrigger("attack");
             AudioFXController.Instance.PlayAttackFx();
+            attackCollider.enabled = true;
+            StartCoroutine(AttackWait());
         }
 
         #endregion
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("enemy"))
+        {
+            //Debug.Log("got hit");
+            //Enemy enemy = collision.GetComponentInParent<Enemy>();
+            //enemy.TakeDamage(AttackDamage);
+        }
     }
     private float CalculateRotation(float x, float y)
     {
@@ -78,6 +91,10 @@ public class Character : MonoBehaviour
         //    return 180f;
         //else
         //    return 0f;
-
+    }
+    IEnumerator AttackWait()
+    {
+        yield return new WaitForSeconds(0.5f);//tempo que fica habilitado o collider para dar dano nos inimigos
+        attackCollider.enabled = false;
     }
 }

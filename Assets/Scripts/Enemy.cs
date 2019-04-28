@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
         switch (Type)
         {
             case EnemyType.Slime:
-                Health = 4;
+                Health = 3;
                 Speed = Random.Range(2f, 4.5f);
                 Power = 1;
                 MinDistanceToChase = 0f;
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
                 float multi = Random.Range(0.7f, 1.3f);
                 transform.localScale = new Vector3(multi, multi, 1f);
                 break;
-          
+
         }
     }
 
@@ -64,9 +64,15 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        KnockBack();
         Health -= amount;
         if (Health <= 0)
             Die();
+    }
+    private void KnockBack()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.AddForce(new Vector2(50, 50));
     }
 
     private void Chase()

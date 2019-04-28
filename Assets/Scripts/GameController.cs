@@ -40,7 +40,6 @@ public class GameController : MonoBehaviour
     {
         Destroy(HeartList[HeartList.Count - 1]);
         HeartList.RemoveAt(HeartList.Count - 1);
-
     }
 
     void Update()
