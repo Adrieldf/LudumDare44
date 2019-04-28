@@ -190,11 +190,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8767636397680311653}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 295090f33fe10bc4e8567c0819ef5c71, type: 3}
+  m_Script: {fileID: 11500000, guid: b1084626a6db85248bd6f280d80ea81f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 10
-  MaxHealth: 10
+  Health: 15
+  MaxHealth: 15
   Speed: 3
   AttackSpeed: 1
   AttackDamage: 1
@@ -213,7 +213,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.038636424, y: 0.08831155}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -224,7 +224,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.47013038, y: 0.8233769}
   m_EdgeRadius: 0
 --- !u!50 &819736655942870583
 Rigidbody2D:

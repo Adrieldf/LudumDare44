@@ -20,9 +20,13 @@ public class Character : MonoBehaviour
     public GameObject playerSprite;
     public Animator anim;
     private bool facingRight = true;
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
-
+        GameController.Instance.CreateHearts();
     }
 
     void Update()

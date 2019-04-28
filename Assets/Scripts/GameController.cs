@@ -8,7 +8,10 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
     public GameObject pauseMenu;
     public GameObject PlayerObject;
-
+    public GameObject HeartContainer;
+    public GameObject HeartPrefab;
+    private List<GameObject> HeartList = new List<GameObject>();
+    private Vector3 currentHeartPosition = new Vector3(0, 0, 0);
     private void Awake()
     {
         Instance = this;
@@ -17,10 +20,32 @@ public class GameController : MonoBehaviour
     {
         pauseMenu.SetActive(false);
     }
+    public void CreateHearts()
+    {
+        float amount = Character.Instance.Health;
+        currentHeartPosition = HeartContainer.transform.position;
+        AddHeart(amount);
+    }
+    public void AddHeart(float amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject go = Instantiate(HeartPrefab, HeartContainer.transform);
+            go.transform.position = currentHeartPosition;
+            currentHeartPosition = go.transform.position + new Vector3(33, 0, 0);
+            HeartList.Add(go);
+        }
+    }
+    public void RemoveHearts(float amount)
+    {
+        Destroy(HeartList[HeartList.Count - 1]);
+        HeartList.RemoveAt(HeartList.Count - 1);
+
+    }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
         }
