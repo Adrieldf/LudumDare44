@@ -18,7 +18,7 @@ public class Character : MonoBehaviour
     #endregion
     public GameObject playerSprite;
     public Animator anim;
-    private bool facingRight = true;
+    public bool facingRight = true;
     public CircleCollider2D attackCollider;
 
     private void Awake()

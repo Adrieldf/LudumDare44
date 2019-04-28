@@ -72,7 +72,13 @@ public class Enemy : MonoBehaviour
     private void KnockBack()
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(50, 50));
+
+        var directionVector = transform.right;
+
+        if(!Character.Instance.facingRight)
+            directionVector = -directionVector;
+            
+        rb.AddForce (directionVector * 5f, ForceMode2D.Impulse);
     }
 
     private void Chase()
