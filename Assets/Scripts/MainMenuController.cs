@@ -5,23 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-
-    void Start()
-    {
-        
-    }
-
-
-    void Update()
-    {
-        
-    }
     public void OpenGameScene()
     {
-        SceneManager.LoadScene("Game");
+        StartCoroutine(Play());
     }
     public void ExitGame()
     {
+       StartCoroutine(Exit());
+    }
+
+    IEnumerator Play()
+    {
+        AudioMenuController.Instance.PlayClickSound();
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Game");
+    }
+
+    IEnumerator Exit()
+    {
+        AudioMenuController.Instance.PlayClickSound();
+        yield return new WaitForSeconds(0.5f);
         Application.Quit();
     }
 }
