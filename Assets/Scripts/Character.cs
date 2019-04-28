@@ -57,6 +57,7 @@ public class Character : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             anim.SetTrigger("attack");
+            AudioFXController.Instance.PlayAttackFx();
         }
 
         #endregion
