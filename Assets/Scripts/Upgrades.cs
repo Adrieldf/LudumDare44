@@ -31,6 +31,7 @@ public class Upgrades : MonoBehaviour
     {
         RollOptions();
         upgradesPanel.SetActive(true);
+        MusicGameController.Instance.PlayPowerUpMusic();
     }
     public void onClickUpgrade(int upgrade)
     {
@@ -68,6 +69,7 @@ public class Upgrades : MonoBehaviour
                 break;
         }
         upgradesPanel.SetActive(false);
+        MusicGameController.Instance.PlayBattleMusic();
     }
     public void RollOptions()
     {

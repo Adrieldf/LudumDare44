@@ -7,19 +7,27 @@ public class MainMenuController : MonoBehaviour
 {
     public void OpenGameScene()
     {
-        StartCoroutine(Play());
+        //StartCoroutine(Play());
+        AudioMenuController.Instance.PlayClickSound();
+        SceneManager.LoadScene("Game");
     }
     public void ExitGame()
     {
-       StartCoroutine(Exit());
+        //StartCoroutine(Exit());
+        AudioMenuController.Instance.PlayClickSound();
+        Application.Quit();
     }
     public void OpenCredits()
     {
-        StartCoroutine(Credits());
+        //StartCoroutine(Credits());
+        AudioMenuController.Instance.PlayClickSound();
+        SceneManager.LoadScene("Credits");
     }
     public void OpenMainMenuScene()
     {
-        StartCoroutine(MainMenu());
+        //StartCoroutine(MainMenu());
+        AudioMenuController.Instance.PlayClickSound();
+        SceneManager.LoadScene("MainMenu");
     }
     IEnumerator Play()
     {
@@ -36,15 +44,20 @@ public class MainMenuController : MonoBehaviour
 
     IEnumerator Exit()
     {
+        Debug.Log("Exit");
         AudioMenuController.Instance.PlayClickSound();
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("ExitAfter");
         Application.Quit();
+
     }
 
     IEnumerator Credits()
     {
+        Debug.Log("Credits");
         AudioMenuController.Instance.PlayClickSound();
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("CreditsAfter");
         SceneManager.LoadScene("Credits");
     }
 
