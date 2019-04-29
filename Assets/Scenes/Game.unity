@@ -1679,7 +1679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00cef3861cdb9cd47938f37a15b8fc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 8300000, guid: 890f591b63478a147b63e173d6766602, type: 3}
+  Attack: {fileID: 8300000, guid: ba80c88fcf30c734ebcb64ad5000e722, type: 3}
   Death: {fileID: 8300000, guid: 890f591b63478a147b63e173d6766602, type: 3}
 --- !u!4 &837642675
 Transform:
