@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemiesSpawner : MonoBehaviour
 {
@@ -10,13 +11,18 @@ public class EnemiesSpawner : MonoBehaviour
     private int waveEnemiesCount = 5;
     private int waveEnemiesSpawnLeft = 5;
     private bool waveOnGoing = false;
-    private int currentWave = 0;
+    public int currentWave = 0;
     private int waveEnemiesAlive = 0;
     private int enemiesPerWave => currentWave * waveEnemiesCount;
     public void EnemyKilled() => waveEnemiesAlive--;
+    public TextMeshProUGUI waveNumber;
+    public TextMeshProUGUI enemiesNumber;
+    public GameObject pressETip;
+
     private void Awake()
     {
         Instance = this;
+        waveOnGoing = false;
     }
     void Update()
     {
@@ -31,15 +37,20 @@ public class EnemiesSpawner : MonoBehaviour
         {
             FinishWave();
         }
+        enemiesNumber.text = waveEnemiesAlive.ToString();
     }
     public void FinishWave()
     {
-        //chamar os upgrades
         waveOnGoing = false;
+        StartCoroutine(ShowUpgrades());
+        pressETip.SetActive(true);
     }
     public void StartWave()
     {
+        pressETip.SetActive(false);
+        Character.Instance.FullHeal();
         currentWave++;
+        waveNumber.text = currentWave.ToString();
         waveEnemiesSpawnLeft = enemiesPerWave;
         waveEnemiesAlive = enemiesPerWave;
         waveOnGoing = true;
@@ -62,5 +73,10 @@ public class EnemiesSpawner : MonoBehaviour
             yield return new WaitForSeconds(1f);
             SpawnEnemy();
         }
+    }
+    IEnumerator ShowUpgrades()
+    {
+        yield return new WaitForSeconds(0.8f);
+        Upgrades.Instance.ShowUpgrades();
     }
 }

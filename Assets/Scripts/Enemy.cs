@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public float MaxDistanceToChase;
     #endregion
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -58,6 +59,11 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        if (isDead)
+            return;
+        else
+            isDead = true;
+
         EnemiesSpawner.Instance.EnemyKilled();
         //larga uns efeitos e particulas
         Destroy(gameObject, 0.35f);
@@ -65,18 +71,21 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        KnockBack();
+        KnockBack(false);
         Health -= amount;
         if (Health <= 0)
             Die();
     }
-    private void KnockBack()
+    public void KnockBack(bool invert)
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
         var directionVector = transform.right;
 
         if (!Character.Instance.facingRight)
+            directionVector = -directionVector;
+
+        if (invert)
             directionVector = -directionVector;
 
         rb.AddForce(directionVector * 5f, ForceMode2D.Impulse);

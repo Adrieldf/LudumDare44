@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class Character : MonoBehaviour
 {
     public static Character Instance;
     #region Stats
 
     public float Health;
+    private float MaxHealth;
 
     public float Speed;
     public float GetSpeed => Speed * Time.deltaTime;
@@ -20,7 +21,9 @@ public class Character : MonoBehaviour
     public Animator anim;
     public bool facingRight = true;
     public CircleCollider2D attackCollider;
-
+    private float hitByEnemyCooldown = 0;
+    public TextMeshProUGUI wavesSurvived;
+    public GameObject deathPanel;
     private void Awake()
     {
         Instance = this;
@@ -29,11 +32,21 @@ public class Character : MonoBehaviour
     {
         GameController.Instance.CreateHearts();
         attackCollider.enabled = false;
+        MaxHealth = Health;
     }
 
     void Update()
     {
-
+        if (hitByEnemyCooldown > 0)
+            hitByEnemyCooldown -= Time.deltaTime;
+    }
+    public void FullHeal()
+    {
+        for (int i = 0; i < Health; i++)
+            GameController.Instance.RemoveHearts(1);
+        for (int i = 0; i < MaxHealth; i++)
+            GameController.Instance.AddHeart(1);
+        Health = MaxHealth;
     }
 
     private void FixedUpdate()
@@ -75,12 +88,48 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("enemy"))
         {
             // KnockBack(); ficou meio zuado
-
+            if (hitByEnemyCooldown <= 0)
+                TakeDamage(1);
 
             //Debug.Log("got hit");
-            //Enemy enemy = collision.GetComponentInParent<Enemy>();
-            //enemy.TakeDamage(AttackDamage);
+            // Enemy enemy = collision.GetComponentInParent<Enemy>();
+            // enemy.KnockBack(true);//como ficou zoado nele dou knockback no inimigo (foda-se é game de jam) // edit: tirei porque ficou zuadaaaasso
         }
+    }
+    public void TakeDamage(int amount)
+    {
+        hitByEnemyCooldown = 0.85f;
+        Health--;
+        GameController.Instance.RemoveHearts(1);
+        if (Health <= 0)
+            Die();
+    }
+    public void ChangeSpeed(int amount)
+    {
+        if (amount > 0)
+            Speed += 0.5f;
+        else
+            Speed -= 0.5f;
+    }
+    public void ChangeHealth(int amount)
+    {
+        if (amount > 0)
+            MaxHealth += 1f;
+        else
+            MaxHealth -= 1f;
+    }
+    public void ChangeAttack(int amount)
+    {
+        if (amount > 0)
+            AttackDamage += 1f;
+        else
+            AttackDamage -= 1f;
+    }
+    private void Die()
+    {
+        //larga uns efeitos e particulas
+        StartCoroutine(DeathPanel());
+        //Destroy(gameObject, 0.35f);
     }
     private void KnockBack()
     {
@@ -107,5 +156,12 @@ public class Character : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);//tempo que fica habilitado o collider para dar dano nos inimigos
         attackCollider.enabled = activate;
+    }
+    IEnumerator DeathPanel()
+    {
+        yield return new WaitForSeconds(1f);
+        wavesSurvived.text = EnemiesSpawner.Instance.currentWave.ToString();
+        deathPanel.SetActive(true);
+
     }
 }

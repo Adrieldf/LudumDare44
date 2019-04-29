@@ -13,12 +13,25 @@ public class MainMenuController : MonoBehaviour
     {
        StartCoroutine(Exit());
     }
-
+    public void OpenCredits()
+    {
+        StartCoroutine(Credits());
+    }
+    public void OpenMainMenuScene()
+    {
+        StartCoroutine(MainMenu());
+    }
     IEnumerator Play()
     {
         AudioMenuController.Instance.PlayClickSound();
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("Game");
+    }
+    IEnumerator MainMenu()
+    {
+        AudioMenuController.Instance.PlayClickSound();
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     IEnumerator Exit()
@@ -27,4 +40,12 @@ public class MainMenuController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Application.Quit();
     }
+
+    IEnumerator Credits()
+    {
+        AudioMenuController.Instance.PlayClickSound();
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Credits");
+    }
+
 }
