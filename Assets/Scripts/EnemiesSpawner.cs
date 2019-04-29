@@ -42,6 +42,7 @@ public class EnemiesSpawner : MonoBehaviour
         currentWave++;
         waveEnemiesSpawnLeft = enemiesPerWave;
         waveEnemiesAlive = enemiesPerWave;
+        waveOnGoing = true;
         StartCoroutine(SpawnWait());
     }
 
