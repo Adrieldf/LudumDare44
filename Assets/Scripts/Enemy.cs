@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
                 Speed = Random.Range(2f, 4.5f);
                 Power = 1;
                 MinDistanceToChase = 0f;
-                MaxDistanceToChase = 10f;
+                MaxDistanceToChase = 50f;
                 float multi = Random.Range(0.7f, 1.3f);
                 transform.localScale = new Vector3(multi, multi, 1f);
                 break;
@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        EnemiesSpawner.Instance.EnemyKilled();
         //larga uns efeitos e particulas
         Destroy(gameObject, 0.35f);
     }
@@ -75,10 +76,10 @@ public class Enemy : MonoBehaviour
 
         var directionVector = transform.right;
 
-        if(!Character.Instance.facingRight)
+        if (!Character.Instance.facingRight)
             directionVector = -directionVector;
-            
-        rb.AddForce (directionVector * 5f, ForceMode2D.Impulse);
+
+        rb.AddForce(directionVector * 5f, ForceMode2D.Impulse);
     }
 
     private void Chase()

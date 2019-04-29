@@ -51,7 +51,7 @@ public class Character : MonoBehaviour
             facingRight = false;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
-        else
+        else if (x > 0)
         {
             facingRight = true;
             transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -64,8 +64,8 @@ public class Character : MonoBehaviour
         {
             anim.SetTrigger("attack");
             AudioFXController.Instance.PlayAttackFx();
-            attackCollider.enabled = true;
-            StartCoroutine(AttackWait());
+            StartCoroutine(AttackWait(true, 0.3f));
+            StartCoroutine(AttackWait(false, 0.4f));
         }
 
         #endregion
@@ -74,10 +74,21 @@ public class Character : MonoBehaviour
     {
         if (collision.CompareTag("enemy"))
         {
+            // KnockBack(); ficou meio zuado
+
+
             //Debug.Log("got hit");
             //Enemy enemy = collision.GetComponentInParent<Enemy>();
             //enemy.TakeDamage(AttackDamage);
         }
+    }
+    private void KnockBack()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+        var directionVector = facingRight ? -transform.right : transform.right;
+
+        rb.AddForce(directionVector * 3f, ForceMode2D.Impulse);
     }
     private float CalculateRotation(float x, float y)
     {
@@ -92,9 +103,9 @@ public class Character : MonoBehaviour
         //else
         //    return 0f;
     }
-    IEnumerator AttackWait()
+    IEnumerator AttackWait(bool activate, float sec)
     {
-        yield return new WaitForSeconds(0.5f);//tempo que fica habilitado o collider para dar dano nos inimigos
-        attackCollider.enabled = false;
+        yield return new WaitForSeconds(sec);//tempo que fica habilitado o collider para dar dano nos inimigos
+        attackCollider.enabled = activate;
     }
 }
